@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP SEBA BOT - নম্বর তথ্য পরিষেবা</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --secondary: #00c853;
+            --accent: #2196f3;
+            --dark: #0a0e14;
+            --darker: #05080d;
+            --text: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Tiro Bangla', serif;
+            background: var(--darker);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 200, 83, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(33, 150, 243, 0.05) 0%, transparent 20%);
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, var(--darker) 21px, transparent 1%) center,
+                linear-gradient(var(--darker) 21px, transparent 1%) center,
+                var(--primary);
+            background-size: 22px 22px;
+            opacity: 0.03;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-right: 15px;
+            text-shadow: 0 0 10px var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(0, 200, 83, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .developer {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: rgba(0, 200, 83, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 200, 83, 0.3);
+            font-size: 0.9rem;
+            color: var(--secondary);
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .search-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(10, 14, 20, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            box-shadow: 0 0 20px rgba(0, 200, 83, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .info-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(10, 14, 20, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(33, 150, 243, 0.2);
+            box-shadow: 0 0 20px rgba(33, 150, 243, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+
+        .info-section .section-title {
+            color: var(--accent);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        input#numberInput {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--secondary);
+            background: rgba(17, 17, 17, 0.8);
+            color: var(--primary);
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        input#numberInput:focus {
+            box-shadow: 0 0 15px var(--primary);
+            border-color: var(--primary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #searchBtn {
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            color: var(--darker);
+            box-shadow: 0 0 10px rgba(0, 200, 83, 0.5);
+        }
+
+        #searchBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        #copyBtn {
+            background: linear-gradient(45deg, #1976d2, var(--accent));
+            color: white;
+            box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+        }
+
+        #copyBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        #resultBox {
+            margin-top: 20px;
+            background: rgba(17, 17, 17, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--secondary);
+            min-height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            white-space: pre-wrap;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 200, 83, 0.2);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            background: rgba(17, 17, 17, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 200, 83, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 200, 83, 0.2);
+        }
+
+        .feature i {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .feature h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .feature p {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 200, 83, 0.5);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes neonFlash {
+            0%, 100% { 
+                box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary); 
+                border-color: var(--primary);
+            }
+            50% { 
+                box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary); 
+                border-color: var(--primary);
+            }
+        }
+
+        #resultBox.show {
+            animation: neonFlash 1s ease-in-out 3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .stats {
+                flex-direction: column;
+            }
+        }
+
+        /* Floating elements for visual interest */
+        .floating {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 200, 83, 0.1);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .floating:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation: float 15s infinite linear;
+        }
+
+        .floating:nth-child(2) {
+            top: 70%;
+            left: 10%;
+            animation: float 18s infinite linear;
+            animation-delay: 1s;
+        }
+
+        .floating:nth-child(3) {
+            top: 30%;
+            right: 5%;
+            animation: float 12s infinite linear;
+            animation-delay: 2s;
+        }
+
+        .floating:nth-child(4) {
+            top: 80%;
+            right: 8%;
+            animation: float 20s infinite linear;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, 20px) rotate(90deg);
+            }
+            50% {
+                transform: translate(40px, 0) rotate(180deg);
+            }
+            75% {
+                transform: translate(20px, -20px) rotate(270deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-robot logo-icon"></i>
+                <h1>VIP SEBA BOT</h1>
+            </div>
+            <p class="tagline">বাংলাদেশের সর্বপ্রথম প্রিমিয়াম নম্বর তথ্য পরিষেবা</p>
+            <div class="developer">ডেভেলপার: VIP Seba Bot</div>
+        </header>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">সমস্ত</div>
+                <div class="stat-label">নম্বর ডাটাবেজ</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">১০০%</div>
+                <div class="stat-label">সাফল্যের হার</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">২৪/৭</div>
+                <div class="stat-label">সেবা প্রাপ্যতা</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <section class="search-section">
+                <h2 class="section-title"><i class="fas fa-search"></i> নম্বর তথ্য অনুসন্ধান</h2>
+                
+                <div class="input-group">
+                    <label for="numberInput">মোবাইল নম্বর লিখুন (শুধুমাত্র ১১ ডিজিট)</label>
+                    <input id="numberInput" type="tel" placeholder="উদাহরণ: 01700000000" 
+                           maxlength="11"
+                           oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,11); clearResult();">
+                </div>
+                
+                <div class="button-group">
+                    <button id="searchBtn" onclick="searchNumber()">
+                        <i class="fas fa-search"></i> অনুসন্ধান
+                    </button>
+                    <button id="copyBtn" onclick="copyResult()">
+                        <i class="fas fa-copy"></i> কপি করুন
+                    </button>
+                </div>
+                
+                <div id="resultBox">এখানে ফলাফল দেখানো হবে...</div>
+            </section>
+            
+            <section class="info-section">
+                <h2 class="section-title"><i class="fas fa-info-circle"></i> আমাদের বিশেষত্ব</h2>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-database"></i>
+                        <h3>সম্পূর্ণ ডাটাবেজ</h3>
+                        <p>সমস্ত বাংলাদেশী নম্বরের তথ্য আমাদের ডাটাবেজে সংরক্ষিত</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <h3>দ্রুত অনুসন্ধান</h3>
+                        <p>সেকেন্ডের মধ্যে পেয়ে যান যেকোনো নম্বরের সম্পূর্ণ তথ্য</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>সুরক্ষিত</h3>
+                        <p>আপনার তথ্য সম্পূর্ণ গোপন রাখা হয়</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>মোবাইল বান্ধব</h3>
+                        <p>সকল ডিভাইসে ব্যবহারের উপযোগী ডিজাইন</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 25px; padding: 15px; background: rgba(33, 150, 243, 0.1); border-radius: 10px; border-left: 3px solid var(--accent);">
+                    <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-lightbulb"></i> ব্যবহারের নিয়ম</h3>
+                    <p style="font-size: 0.9rem;">১. শুধুমাত্র ১১ ডিজিটের নম্বর লিখুন (কোনো স্পেস বা বিশেষ চিহ্ন ছাড়া)<br>
+                    ২. "অনুসন্ধান" বাটনে ক্লিক করুন<br>
+                    ৩. ফলাফল পেয়ে গেলে "কপি করুন" বাটনে ক্লিক করে ক্লিপবোর্ডে সংরক্ষণ করুন</p>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>VIP SEBA BOT &copy; 2025 - সকল অধিকার সংরক্ষিত</p>
+            <p style="margin-top: 5px; font-size: 0.8rem;">এই ওয়েবসাইটটি শুধুমাত্র আইনানুগ উদ্দেশ্যে ব্যবহারের জন্য</p>
+        </footer>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBk6RHNTXITyiBoL4cabZ5lpcPkHvUBnIQ",
+            authDomain: "vipseba-40a35.firebaseapp.com",
+            databaseURL: "https://vipseba-40a35-default-rtdb.firebaseio.com",
+            projectId: "vipseba-40a35",
+            storageBucket: "vipseba-40a35.firebasestorage.app",
+            messagingSenderId: "202593844037",
+            appId: "1:202593844037:web:fcdf201721fe4a31851c2c",
+            measurementId: "G-MVG1D02EVQ"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Search function
+        function searchNumber(){
+            const num = document.getElementById("numberInput").value;
+            const box = document.getElementById("resultBox");
+
+            if(!num){ 
+                box.innerText="দয়া করে একটি নম্বর লিখুন!";
+                box.style.borderColor = "#ff4444";
+                return; 
+            }
+
+            if(num.length !== 11){
+                box.innerText="দয়া করে একটি বৈধ ১১ ডিজিটের মোবাইল নম্বর লিখুন!";
+                box.style.borderColor = "#ff4444";
+                return;
+            }
+
+            // Show loading state
+            box.innerHTML = '<i class="fas fa-spinner fa-spin"></i> অনুসন্ধান চলছে...';
+            box.style.borderColor = "var(--secondary)";
+
+            db.ref('numbers/' + num).once('value').then(snapshot => {
+                if(snapshot.exists()){
+                    box.innerText = snapshot.val().data;
+                    document.getElementById("copyBtn").disabled = false;
+                    box.classList.remove("show");
+                    void box.offsetWidth;
+                    box.classList.add("show");
+                    box.style.borderColor = "var(--secondary)";
+                } else {
+                    box.innerText = "❌ এই নম্বরের জন্য কোনো তথ্য পাওয়া যায়নি।";
+                    document.getElementById("copyBtn").disabled = true;
+                    box.classList.remove("show");
+                    box.style.borderColor = "#ff4444";
+                }
+            }).catch(error => {
+                box.innerText = "❌ ডাটাবেজে সংযোগ সমস্যা। পরে আবার চেষ্টা করুন।";
+                document.getElementById("copyBtn").disabled = true;
+                box.style.borderColor = "#ff4444";
+            });
+        }
+
+        // Copy result function
+        function copyResult(){
+            const box = document.getElementById("resultBox");
+            if(box.innerText && !box.innerText.includes("এখানে ফলাফল দেখানো হবে")){
+                navigator.clipboard.writeText(box.innerText).then(() => {
+                    // Show success message
+                    const originalText = box.innerText;
+                    box.innerText = "✔ ফলাফল কপি করা হয়েছে!";
+                    box.style.borderColor = "var(--primary)";
+                    
+                    setTimeout(() => {
+                        box.innerText = originalText;
+                        box.style.borderColor = "var(--secondary)";
+                    }, 1500);
+                });
+            }
+        }
+
+        // Clear result when input is cleared
+        function clearResult(){
+            const input = document.getElementById("numberInput").value;
+            const box = document.getElementById("resultBox");
+            if(input.trim() === ""){
+                box.innerText = "এখানে ফলাফল দেখানো হবে...";
+                document.getElementById("copyBtn").disabled = true;
+                box.classList.remove("show");
+                box.style.borderColor = "var(--secondary)";
+            }
+        }
+
+        // Disable copy button initially
+        document.getElementById("copyBtn").disabled = true;
+
+        // Add enter key support
+        document.getElementById("numberInput").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                searchNumber();
+            }
+        });
+    </script>
+</body>
+</html>
